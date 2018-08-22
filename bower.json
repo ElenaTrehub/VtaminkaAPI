@@ -1,0 +1,21 @@
+{
+  "name": "vtaminkaexpress",
+  "description": "",
+  "main": "",
+  "authors": [
+    "IT-STEP DONETSK"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^4.1.3",
+    "jQuery": "^3.3.1"
+  }
+}

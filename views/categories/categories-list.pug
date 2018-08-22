@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+    if categories.length === 0
+        .alert.alert-info
+            | Категории не найдены
+    else
+        table.table
+            thead
+                tr(align="middle")
+                    th(scope='col') #
+                    th(scope='col') Название
+                    th(scope='col') Товаров
+                    th(scope='col') Изменить
+                    th(scope='col') Удалить
+
+            tbody
+                each category in categories
+                    tr(align="middle")
+                        td= category.categoryID
+                        td= category.categoryTitle
+                        td 0
+                        td
+                            a.alert.alert-primary(href="/panel/category/"+category.categoryID style="display: inline-block;") Изменить
+                        td
+                            button.alert.alert-danger(style="cursor: pointer") Удалить

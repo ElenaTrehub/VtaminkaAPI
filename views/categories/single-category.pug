@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+    form.col-md-12
+        .form-group
+            label(for='exampleInputEmail1') Название
+            input#exampleInputEmail1.form-control(placeholder='Введите название' value=category.categoryTitle)
+            small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
+        button.btn.btn-primary(type='submit') Обновить
