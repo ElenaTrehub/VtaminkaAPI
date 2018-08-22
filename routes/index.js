@@ -5,6 +5,7 @@ const router = express.Router();
 
 const HomeController = require('../controller/panel/HomeController');
 
+
 const CategoryController = require('../controller/panel/CategoryController');
 
 /* GET home page. */
