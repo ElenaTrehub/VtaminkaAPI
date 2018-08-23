@@ -2,6 +2,8 @@
 
 const Sequelize = require('sequelize');
 
+const RegularExpressions = require('./RegularExpressions');
+
 const connection = require('../routes/connection');
 
 const Category = connection.define('productcategories',{
@@ -16,11 +18,17 @@ const Category = connection.define('productcategories',{
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
         unique: true,
+        validate:{
+            is: RegularExpressions.CategoryTitleExpression
+        }
+
     }
 
 },{
     createdAt: false,
     updatedAt: false
 });
+
+//Category.sync({force: true});
 
 module.exports = Category;

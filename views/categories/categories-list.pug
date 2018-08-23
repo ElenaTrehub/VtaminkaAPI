@@ -1,8 +1,12 @@
 extends ../layout
 
 block content
+    script( defer src="/javascripts/category.js" )
+
+    a.btn.btn-primary.col-12(href="/panel/category/new") Добавить категорию
+
     if categories.length === 0
-        .alert.alert-info
+        .alert.alert-info.col-12
             | Категории не найдены
     else
         table.table
@@ -23,4 +27,23 @@ block content
                         td
                             a.alert.alert-primary(href="/panel/category/"+category.categoryID style="display: inline-block;") Изменить
                         td
-                            button.alert.alert-danger(style="cursor: pointer") Удалить
+                            button.alert.alert-danger(
+                                style="cursor: pointer"
+                                data-category-title=category.categoryTitle
+                                data-category-id=category.categoryID
+                            ) Удалить
+
+            #confirmRemoveCategoryModal.modal(tabindex='-1', role='dialog')
+                .modal-dialog(role='document')
+                    .modal-content
+                        .modal-header
+                            h5.modal-title Удаление категории
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                        .modal-body
+                            div
+                                | Вы действительно хотите удалить категорию
+                                b#categoryName
+                        .modal-footer
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') Нет
+                            button#confirmRemoveButton.btn.btn-primary(type='button' data-dismiss='modal') Удалить

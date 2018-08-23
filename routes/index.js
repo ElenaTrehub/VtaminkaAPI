@@ -13,8 +13,11 @@ router.get('/', HomeController.HomeAction );
 router.get('/panel', HomeController.HomeAction );
 
 /* Categories */
-router.get('/panel/categories', CategoryController.GetCategoriesList );
-router.get('/panel/category/:id' , CategoryController.GetCategory );
-
+router.get('/panel/categories', CategoryController.GetCategoriesListAction );
+router.get('/panel/category/new' , CategoryController.AddCategoryAction);
+router.get('/panel/category/:id' , CategoryController.GetCategoryAction );
+router.post('/panel/category/new' , CategoryController.AddCategory);
+router.put('/panel/category/:id' , CategoryController.UpdateCategory );
+router.delete('/panel/category' , CategoryController.RemoveCategory );
 
 module.exports = router;

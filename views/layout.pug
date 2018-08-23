@@ -6,6 +6,9 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     script( src="/javascripts/jQuery.js" )
     script( src="/javascripts/bootstrap.js" )
+    script( src="/javascripts/fetch.js" )
+    script( src="/javascripts/RegularExpressions.js" )
+    script( src="/javascripts/main.js" )
 
   body
     nav.navbar.navbar-dark.fixed-top.bg-dark.flex-md-nowrap.p-0.shadow
@@ -67,6 +70,6 @@ html
               div(style='position:absolute;width:1000000px;height:1000000px;left:0;top:0')
             .chartjs-size-monitor-shrink(style='position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;')
               div(style='position:absolute;width:200%;height:200%;left:0; top:0')
-          .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
+          .justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
             h1.h2= title
             block content

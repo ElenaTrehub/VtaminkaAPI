@@ -1,9 +1,14 @@
 extends ../layout
 
 block content
+
+    script( defer src="/javascripts/category.js")
+
     form.col-md-12
         .form-group
-            label(for='exampleInputEmail1') Название
-            input#exampleInputEmail1.form-control(placeholder='Введите название' value=category.categoryTitle)
-            small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
-        button.btn.btn-primary(type='submit') Обновить
+            label(for='categoryTitle') Название
+            input#categoryTitle.form-control(placeholder='Введите название' value=category.categoryTitle)
+        .form-group
+            #message.alert.alert-danger(style="display: none")
+
+        #updateCategoryButton.btn.btn-primary(data-category-id=category.categoryID) Обновить

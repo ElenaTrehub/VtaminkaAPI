@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+    script( defer src="/javascripts/category.js" )
+
+    form.col-md-12
+            .form-group
+                label(for='categoryTitle') Название
+                input#categoryTitle.form-control(placeholder='Введите название')
+            .form-group
+                #message.alert.alert-danger(style="display: none")
+
+            #addCategoryButton.btn.btn-primary Добавить категорию
