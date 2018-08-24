@@ -1,0 +1,49 @@
+extends ../layout
+
+block content
+    a.form-group.btn.btn-primary.col-12(href="/panel/products/new") Добавить товар
+    a.form-group.btn.btn-primary.col-12(href="/panel/products/attributes") Список имеющихся атрибутов
+    a.form-group.btn.btn-primary.col-12(href="/panel/products/attributes/new") Добавить атрибут товара
+
+    if products.length === 0
+        .alert.alert-info.col-12
+            | Товары не найдены
+    else
+        table.table
+            thead
+                tr(align="middle")
+                    th(scope='col') #
+                    th(scope='col') Название
+                    th(scope='col') Цена
+                    th(scope='col') Изменить
+                    th(scope='col') Удалить
+
+            tbody
+                each product in products
+                    tr(align="middle")
+                        td= product.productID
+                        td= product.productTitle
+                        td= product.productPrice
+                        td
+                            a.alert.alert-primary(href="/panel/product/" + product.productID style="display: inline-block;") Изменить
+                        td
+                            button.alert.alert-danger(
+                                style="cursor: pointer"
+                                data-product-title=product.productTitle
+                                data-product-id=product.productID
+                            ) Удалить
+
+            #confirmRemoveProductModal.modal(tabindex='-1', role='dialog')
+                .modal-dialog(role='document')
+                    .modal-content
+                        .modal-header
+                            h5.modal-title Удаление товара
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                        .modal-body
+                            div
+                                | Вы действительно хотите удалить товар
+                                b#productTitle
+                        .modal-footer
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') Нет
+                            button#confirmRemoveProductButton.btn.btn-primary(type='button' data-dismiss='modal') Удалить
