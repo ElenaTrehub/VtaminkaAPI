@@ -2,9 +2,14 @@
 
 
 const Product = require('../../model/Product');
+const Category = require('../../model/Category');
 const Response = require('../../model/Response');
 const ProductAttributes = require('../../model/ProductAttributes');
 const ProductAndAttributes = require('../../model/ProductAndAttributes');
+const ProductAndCategories = require('../../model/ProductAndCategories');
+const ProductImages = require('../../model/ProductImages');
+
+const fs = require('fs');
 
 const RegularExpressions = require('../../model/RegularExpressions');
 
@@ -31,8 +36,9 @@ module.exports.GetProductsListAction = async ( req , res )=>{
 module.exports.AddNewProductAction = async (req , res)=>{
 
     let attributes = await ProductAttributes.findAll();
+    let categories = await Category.findAll();
 
-    res.render('products/new-product' , { attributes: attributes });
+    res.render('products/new-product' , { attributes: attributes , categories: categories });
 
 };
 
@@ -104,4 +110,127 @@ module.exports.AddNewAttribute = async ( req , res )=>{
         res.send( response );
 
     }//catch
+};
+
+module.exports.AddNewProduct = async ( req , res )=>{
+
+    let response = new Response();
+
+    try{
+
+        let productTitle = req.body.productTitle;
+        let productDescription = req.body.productDescription;
+        let productPrice = req.body.productPrice;
+        let categories = JSON.parse(req.body.categories);
+        let attributes = JSON.parse(req.body.attributes);
+
+        let newProduct = await Product.create({
+            'productTitle': productTitle,
+            'productDescription': productDescription,
+            'productPrice': productPrice,
+        });
+
+        for ( let i = 0 ; i < categories.length ; i++ ){
+
+            let category = categories[i];
+
+            await ProductAndCategories.create({
+                'productID': newProduct.productID,
+                'categoryID': category,
+            });
+
+        }//for i
+
+        for ( let i = 0 ; i < attributes.length ; i++ ){
+
+            let attribute = attributes[i];
+
+            await ProductAndAttributes.create({
+               'productID': newProduct.productID,
+               'attributeID': attribute.attributeID,
+               'attributeValue': attribute.attributeValue,
+            });
+
+        }//for i
+
+
+        //Начало работы с загруженным файлом
+        if( req.files ){
+
+           let productImage = req.files.image;
+           let path = `public/images/${newProduct.productID}`;
+
+           try{
+
+               fs.mkdirSync(path);
+
+           }//try
+           catch(ex){ }
+
+           // fs.existsSync()
+           productImage.mv( `${path}/${productImage.name}` ,async function(err) {
+
+                if (err){
+                    console.log('FILE UPLOAD ERROR:' , err);
+                    return;
+                }//if
+
+                await ProductImages.create({
+                    'productID': newProduct.productID,
+                    'imagePath': `${path}/${productImage.name}`
+                });
+
+            });
+
+        }//if
+
+        response.code = 200;
+        response.message = 'Товар успешно добавлен!';
+        response.data = newProduct;
+
+    }//try
+    catch(ex){
+
+        console.log(ex);
+
+        response.code = 500;
+        response.message = 'Внутренняя ошибка сервера!';
+        response.data = null;
+
+    }//catch
+
+    res.status(response.code);
+    res.send(response);
+
+};
+
+module.exports.GetProductAction = async ( req , res )=>{
+
+    let response = new Response();
+
+    try{
+
+        let product = await Product.findById( req.params.id , {
+            include: [
+                ProductAndCategories,
+                ProductAndAttributes,
+                ProductImages
+            ]
+        });
+
+        console.log('product' , product);
+
+    }//try
+    catch(ex){
+
+        response.code = 500;
+        response.message = 'Внутренняя ошибка!';
+        response.data = null;
+        console.log(ex);
+
+    }//catch
+
+    res.status(response.code);
+    res.send(response);
+
 };

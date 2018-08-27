@@ -11,7 +11,7 @@ class RegularExpressions{
     }
 
     static get ProductDescriptionExpression(){
-        return /^[a-z0-9а-я\s_\-:,.;"'?!()]{2,255}$/i
+        return /^[a-z0-9а-я\s_\-:,.;"'?!()]{2,1000}$/i
     }
 
 }

@@ -6,6 +6,8 @@ const RegularExpressions = require('./RegularExpressions');
 
 const connection = require('../routes/connection');
 
+const Category = require('./Category');
+
 const Product = connection.define('products',{
 
     productID:{
@@ -26,19 +28,22 @@ const Product = connection.define('products',{
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
         validate:{
-            is: RegularExpressions.ProductDescriptionExpression
+            is: RegularExpressions.ProductDescriptionExpression,
         }
     },
     productPrice:{
         type: Sequelize.DataTypes.DOUBLE,
         allowNull: false
-    }
+    },
+    //categories: Sequelize.DataTypes.VIRTUAL
 
 },{
-    createdAt: true,
-    updatedAt: true
+    createdAt: 'created',
+    updatedAt: 'updated'
 });
 
 //Product.sync({force: true});
+
+Product.hasMany(Category);
 
 module.exports = Product;

@@ -6,6 +6,9 @@ const RegularExpressions = require('./RegularExpressions');
 
 const connection = require('../routes/connection');
 
+const ProductAndCategories = require('./ProductAndCategories');
+const Product = require('./Product');
+
 const Category = connection.define('productcategories',{
 
     categoryID:{

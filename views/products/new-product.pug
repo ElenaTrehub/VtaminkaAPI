@@ -10,6 +10,19 @@ block content
         .form-group
             label(for='productPrice') Цена
             input#productPrice.form-control(placeholder='Введите цену')
+        .custom-file
+            input#productImage.custom-file-input(type='file')
+            label.custom-file-label(for='productImage') Добавить изображение
+        .form-group
+            label Файл:
+        .form-group
+            label(for='categoriesSelect') Категории
+            select#categoriesSelect.form-control( multiple )
+                each category in categories
+                    option(
+                        value=category.categoryID
+                        data-category-id=category.categoryID
+                    ) #{category.categoryTitle}
         .form-group
             label(for='attributesSelect') Атрибуты
             select#attributesSelect.form-control
