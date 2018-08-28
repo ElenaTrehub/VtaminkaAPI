@@ -45,7 +45,7 @@ const Product = connection.define('products',{
 
     },
     productDescription:{
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING(1500),
         allowNull: false,
         validate:{
             is: RegularExpressions.ProductDescriptionExpression,
@@ -90,6 +90,9 @@ const ProductAttributes = connection.define('attributes',{
             is: RegularExpressions.CategoryTitleExpression
         }
 
+    },
+    attributeValue: {
+        type:Sequelize.DataTypes.VIRTUAL
     }
 
 },{
@@ -136,20 +139,21 @@ const ProductImages = connection.define('pImages', {
     }
 });
 
-Product.belongsToMany( Category , { through: ProductAndCategories , foreignKey: 'productID' });
-Category.belongsToMany( Product ,  { through: ProductAndCategories , foreignKey: 'categoryID' });
+Product.belongsToMany( Category , { through: ProductAndCategories , foreignKey: 'productID' , as: 'categories' });
+Category.belongsToMany( Product ,  { through: ProductAndCategories , foreignKey: 'categoryID'});
 
-Product.belongsToMany( ProductAttributes , { through: ProductAndAttributes , foreignKey: 'attributeID'});
-ProductAttributes.belongsToMany( Product , { through: ProductAndAttributes , foreignKey: 'productID'});
+Product.belongsToMany( ProductAttributes , { through: ProductAndAttributes , foreignKey: 'productID'});
+ProductAttributes.belongsToMany( Product , { through: ProductAndAttributes , foreignKey:'attributeID'});
 
 ProductImages.belongsTo(Product , { foreignKey: 'productID' });
 
+//
 // Product.sync({force: true});
 // Category.sync({force: true});
 // ProductAndCategories.sync({force: true});
 // ProductAttributes.sync({force: true});
 // ProductAndAttributes.sync({force: true});
-//ProductImages.sync({force: true});
+// ProductImages.sync({force: true});
 
 module.exports.Category = Category;
 module.exports.Product = Product;

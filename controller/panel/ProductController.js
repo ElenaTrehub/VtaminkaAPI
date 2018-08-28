@@ -5,7 +5,7 @@ const Category = require('../../model/defenitions').Category;
 const Response = require('../../model/Response');
 const ProductAttributes = require('../../model/defenitions').ProductAttributes;
 
-const ProductAndAttributes = require('../../model/defenitions').ProductAndCategories;
+const ProductAndAttributes = require('../../model/defenitions').ProductAndAttributes;
 
 const ProductAndCategories = require('../../model/defenitions').ProductAndCategories;
 const ProductImages = require('../../model/defenitions').ProductImages;
@@ -131,29 +131,26 @@ module.exports.AddNewProduct = async ( req , res )=>{
             'productPrice': productPrice,
         });
 
-        for ( let i = 0 ; i < categories.length ; i++ ){
 
-            let category = categories[i];
+        for ( let i = 0 ; i < categories.length ; i++ ){
 
             await ProductAndCategories.create({
                 'productID': newProduct.productID,
-                'categoryID': category,
+                'categoryID': categories[i]
             });
+
 
         }//for i
 
         for ( let i = 0 ; i < attributes.length ; i++ ){
 
-            let attribute = attributes[i];
-
             await ProductAndAttributes.create({
-               'productID': newProduct.productID,
-               'attributeID': attribute.attributeID,
-               'attributeValue': attribute.attributeValue,
+                'productID': newProduct.productID,
+                'attributeID': attributes[i].attributeID,
+                'attributeValue': attributes[i].attributeValue
             });
 
         }//for i
-
 
         //Начало работы с загруженным файлом
         if( req.files ){
@@ -211,7 +208,20 @@ module.exports.GetProductAction = async ( req , res )=>{
 
     try{
 
-        let product = await Product.findById( req.params.id , {});
+        let product = await Product.findById( req.params.id , {
+            include: [
+                {
+                    model: Category,
+                    as: 'categories',
+                    //attributes: { exclude: ['categoryTitle'] },
+                },
+                {
+                    model: ProductAttributes
+                }
+            ]
+        });
+
+        response.data = product;
 
         console.log('product' , product);
         response.code = 200;
