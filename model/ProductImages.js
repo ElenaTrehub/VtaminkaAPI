@@ -26,7 +26,7 @@ const ProductImages = connection.define('productImages', {
     }
 });
 
-ProductImages.belongsTo(Product , { foreignKey: 'productID' });
+//ProductImages.belongsTo(Product , { foreignKey: 'productID' });
 
 //ProductImages.sync({force: true});
 

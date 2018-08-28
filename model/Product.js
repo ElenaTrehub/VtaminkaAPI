@@ -44,6 +44,6 @@ const Product = connection.define('products',{
 
 //Product.sync({force: true});
 
-Product.hasMany(Category);
+//Product.hasMany(this.Category);
 
 module.exports = Product;

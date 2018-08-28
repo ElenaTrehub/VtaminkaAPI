@@ -1,6 +1,7 @@
 "use strict";
 
-const Category = require('../../model/Category');
+//const Category = require('../../model/Category');
+const Category = require('../../model/defenitions').Category;
 
 const RegularExpressions = require('../../model/RegularExpressions');
 

@@ -1,13 +1,14 @@
 "use strict";
 
-
-const Product = require('../../model/Product');
-const Category = require('../../model/Category');
+const Product = require('../../model/defenitions').Product;
+const Category = require('../../model/defenitions').Category;
 const Response = require('../../model/Response');
-const ProductAttributes = require('../../model/ProductAttributes');
-const ProductAndAttributes = require('../../model/ProductAndAttributes');
-const ProductAndCategories = require('../../model/ProductAndCategories');
-const ProductImages = require('../../model/ProductImages');
+const ProductAttributes = require('../../model/defenitions').ProductAttributes;
+
+const ProductAndAttributes = require('../../model/defenitions').ProductAndCategories;
+
+const ProductAndCategories = require('../../model/defenitions').ProductAndCategories;
+const ProductImages = require('../../model/defenitions').ProductImages;
 
 const fs = require('fs');
 
@@ -210,15 +211,10 @@ module.exports.GetProductAction = async ( req , res )=>{
 
     try{
 
-        let product = await Product.findById( req.params.id , {
-            include: [
-                ProductAndCategories,
-                ProductAndAttributes,
-                ProductImages
-            ]
-        });
+        let product = await Product.findById( req.params.id , {});
 
         console.log('product' , product);
+        response.code = 200;
 
     }//try
     catch(ex){

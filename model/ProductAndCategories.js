@@ -6,7 +6,7 @@ const RegularExpressions = require('./RegularExpressions');
 
 const connection = require('../routes/connection');
 
-const Category = require('./Category');
+//const Category = require('./Category');
 
 const Product = require('./Product');
 
@@ -34,6 +34,6 @@ const ProductAndCategories = connection.define('productAndCategories',{
 
 //Category.belongsToMany(Product , { through: ProductAndCategories });
 
-ProductAndCategories.sync({force: true});
+//ProductAndCategories.sync({force: true});
 
 module.exports = ProductAndCategories;

@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-const connection = new Sequelize('vtamindb', 'Vtamin-admin', '123456', {
+const connection = new Sequelize('vtaminkadb', 'Vtamin-admin', '123456', {
     host: 'localhost',
     dialect: 'mysql',
     operatorsAliases: false,
