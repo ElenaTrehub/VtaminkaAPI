@@ -1,0 +1,70 @@
+extends ../layout
+
+block content
+    script( defer src="/javascripts/product.js" )
+
+    form.col-md-12
+        .form-group
+            label(for='productTitle') Название
+            input#productTitle.form-control(placeholder='Введите название' value=product.productTitle)
+        .form-group
+            label(for='productPrice') Цена
+            input#productPrice.form-control(placeholder='Введите цену' value=product.productPrice )
+        .custom-file
+            input#productImage.custom-file-input(type='file')
+            label.custom-file-label(for='productImage') Добавить изображение
+        .form-group
+            .card(style="width: 16em")
+                img.card-img-top(src='/' + product.image.imagePath, alt='Card image cap')
+                .card-body
+                    p.card-text #{product.image.imagePath}
+        .form-group
+            label(for='categoriesSelect') Категории
+            select#categoriesSelect.form-control( multiple )
+                each category in categories
+                    option(
+                        value=category.categoryID
+                        data-category-id=category.categoryID
+                    ) #{category.categoryTitle}
+        .form-group
+            label(for='attributesSelect') Атрибуты
+            select#attributesSelect.form-control
+                option(value=-1) Выбрать атрибут
+                each attribute in attributes
+                    option(
+                    value=attribute.attributeID
+                    data-attribute-id=attribute.attributeID
+                    ) #{attribute.attributeTitle}
+        .form-group
+            label(for='currentAttributeValue') Значение атрибута
+            input#currentAttributeValue.form-control(placeholder='Введите значение')
+        .form-group
+            .btn.btn-primary#addAttributeValue
+                | Добавить атрибут
+        .form-group
+            label(for='productAttributes') Список установленных атрибутов
+            table.table
+                thead
+                    tr(align="middle")
+                        th(scope='col') #
+                        th(scope='col') Название
+                        th(scope='col') Значение
+                        th(scope='col') Удалить
+                tbody#productAttributes
+                    each attribute in product.attributes
+                        tr(
+                            align="middle"
+                                value=attribute.attributeID
+                                data-attribute-id=attribute.attributeID
+                            )
+                            td #{attribute.attributeID}
+                            td #{attribute.attributeTitle}
+                            td #{attribute.pAttributes.attributeValue}
+                            td Удалить
+        .form-group
+            label(for='productDescription') Описание
+            textarea#productDescription.form-control(placeholder='Введите описание') #{product.productDescription}
+        .form-group
+            #message.alert.alert-danger(style="display: none")
+
+        #addProductButton.btn.btn-primary Добавить товар

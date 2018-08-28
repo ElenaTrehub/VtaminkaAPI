@@ -175,7 +175,7 @@ module.exports.AddNewProduct = async ( req , res )=>{
 
                 await ProductImages.create({
                     'productID': newProduct.productID,
-                    'imagePath': `${path}/${productImage.name}`
+                    'imagePath': `images/${newProduct.productID}/${productImage.name}`
                 });
 
             });
@@ -204,8 +204,6 @@ module.exports.AddNewProduct = async ( req , res )=>{
 
 module.exports.GetProductAction = async ( req , res )=>{
 
-    let response = new Response();
-
     try{
 
         let product = await Product.findById( req.params.id , {
@@ -221,22 +219,24 @@ module.exports.GetProductAction = async ( req , res )=>{
             ]
         });
 
-        response.data = product;
+        if( !product ){
+            throw new Error('Product not found!');
+        }//if
 
-        console.log('product' , product);
-        response.code = 200;
+        product.image = await ProductImages.findOne({
+            where: {
+                productID: product.productID
+            }
+        });
+
+        let attributes = await ProductAttributes.findAll();
+        let categories = await Category.findAll();
+
+        res.render('products/single-product' , { product: product , attributes: attributes, categories: categories });
 
     }//try
     catch(ex){
-
-        response.code = 500;
-        response.message = 'Внутренняя ошибка!';
-        response.data = null;
-        console.log(ex);
-
+        res.render('error' , { error: ex });
     }//catch
-
-    res.status(response.code);
-    res.send(response);
 
 };

@@ -55,6 +55,7 @@ const Product = connection.define('products',{
         type: Sequelize.DataTypes.DOUBLE,
         allowNull: false
     },
+    image: Sequelize.DataTypes.VIRTUAL
 
 },{
     createdAt: 'created',
