@@ -18,16 +18,20 @@ block content
                 img.card-img-top(src='/' + product.image.imagePath, alt='Card image cap')
                 .card-body
                     p.card-text #{product.image.imagePath}
-                    button.btn.btn-wrapper(type='button', data-path='${product.image.imagePath}')
-                        | Удалить изображение
+                button.btn.btn-wrapper(type='button', data-path='${product.image.imagePath}')
+                    | Удалить изображение
+
+
+
 
         .form-group
             label(for='categoriesSelect') Категории
-            select#categoriesSelect.form-control( multiple )
+            select#categoriesSelect.form-control( multiple)(data-productCategories = product.categories)
                 each category in categories
                     option(
                         value=category.categoryID
                         data-category-id=category.categoryID
+
                     ) #{category.categoryTitle}
         .form-group
             label(for='attributesSelect') Атрибуты
@@ -72,4 +76,4 @@ block content
         .form-group
             #message.alert.alert-danger(style="display: none")
 
-        #addProductButton.btn.btn-primary Добавить товар
+        #changeProductButton.btn.btn-primary(data-product-id=product.productID) Изменить товар

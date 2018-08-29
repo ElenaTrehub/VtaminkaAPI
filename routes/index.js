@@ -31,7 +31,7 @@ router.get('/panel/products/new' ,ProductController.AddNewProductAction );
 router.post('/panel/products/new' ,ProductController.AddNewProduct );
 
 router.get('/panel/products/:id' ,ProductController.GetProductAction );
-
+router.put('/panel/products/:id' , ProductController.UpdateProduct );
 router.get('/panel/products/attributes/new' ,ProductController.AddNewAttributeAction );
 router.post('/panel/products/attributes/new' ,ProductController.AddNewAttribute );
 

@@ -240,3 +240,139 @@ module.exports.GetProductAction = async ( req , res )=>{
     }//catch
 
 };
+
+module.exports.UpdateProduct = async ( req , res )=>{
+
+    let response = new Response();
+
+    try{
+        let productID = req.body.productID;
+        let productTitle = req.body.productTitle;
+        let productDescription = req.body.productDescription;
+        let productPrice = req.body.productPrice;
+        let categories = JSON.parse(req.body.categories);
+        let attributes = JSON.parse(req.body.attributes);
+
+        let product = await Product.findById(productID);
+
+        if( product ){
+
+            let updateResult = await product.update({
+                'productTitle': productTitle,
+                'productDescription': productDescription,
+                'productPrice': productPrice,
+            });
+
+            await ProductAndCategories.destroy({
+                where: {
+                    'productID': productID
+                }
+
+            });
+
+            await ProductAndAttributes.destroy({
+                where: {
+                    'productID': productID
+                }
+            });
+
+            await ProductImages.destroy({
+                where: {
+                    'productID': productID
+                }
+            });
+
+            for ( let i = 0 ; i < categories.length ; i++ ){
+
+                await ProductAndCategories.create({
+                    'productID': productID,
+                    'categoryID': categories[i]
+                });
+
+
+            }//for i
+
+            for ( let i = 0 ; i < attributes.length ; i++ ){
+
+                await ProductAndAttributes.create({
+                    'productID': productID,
+                    'attributeID': attributes[i].attributeID,
+                    'attributeValue': attributes[i].attributeValue
+                });
+
+            }//for i
+
+            //Начало работы с загруженным файлом
+            if( req.files ){
+
+                let productImage = req.files.image;
+                let path = `public/images/${productID}`;
+
+                try{
+
+                    fs.mkdirSync(path);
+
+                }//try
+                catch(ex){ }
+
+                // fs.existsSync()
+                productImage.mv( `${path}/${productImage.name}` ,async function(err) {
+
+                    if (err){
+                        console.log('FILE UPLOAD ERROR:' , err);
+                        return;
+                    }//if
+
+                    await ProductImages.create({
+                        'productID': productID,
+                        'imagePath': `images/${productID}/${productImage.name}`
+                    });
+
+                });
+
+
+
+
+            response.code = 200;
+            response.message = 'Продукт успешно обновлена';
+            response.data = updateResult;
+
+            res.send(response);
+
+        }//if
+        else{
+
+
+            response.code = 404;
+            response.message = 'Категория не найдена!';
+            response.data = productID;
+
+            res.send(response);
+
+        }//else
+
+
+
+
+
+        }//if
+
+        response.code = 200;
+        response.message = 'Товар успешно добавлен!';
+        response.data = newProduct;
+
+    }//try
+    catch(ex){
+
+        console.log(ex);
+
+        response.code = 500;
+        response.message = 'Внутренняя ошибка сервера!';
+        response.data = null;
+
+    }//catch
+
+    res.status(response.code);
+    res.send(response);
+
+};
