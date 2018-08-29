@@ -1,0 +1,49 @@
+extends ../layout
+
+block content
+    //script( defer src="/javascripts/languege.js" )
+
+    a.btn.btn-primary.col-12(href="/panel/languages/new") Добавить язык
+
+    if languages.length === 0
+        .alert.alert-info.col-12
+            | Языки не найдены
+    else
+        table.table
+            thead
+                tr(align="middle")
+                    th(scope='col') #
+                    th(scope='col') Название
+                    th(scope='col') Обозначение
+                    th(scope='col') Изменить
+                    th(scope='col') Удалить
+
+            tbody
+                each language in languages
+                    tr(align="middle")
+                        td= language.languageID
+                        td= language.languageTitle
+                        td= language.languageReduction
+                        td
+                            a.alert.alert-primary(href="/panel/languege/"+language.languageID style="display: inline-block;") Изменить
+                        td
+                            button.alert.alert-danger(
+                            style="cursor: pointer"
+                            data-languege-title=language.languageTitle
+                            data-languege-id=language.languageID
+                            ) Удалить
+
+            #confirmRemoveLanguageModal.modal(tabindex='-1', role='dialog')
+                .modal-dialog(role='document')
+                    .modal-content
+                        .modal-header
+                            h5.modal-title Удаление языка
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                        .modal-body
+                            div
+                                | Вы действительно хотите удалить язык
+                                b#languageName
+                        .modal-footer
+                            button.btn.btn-secondary(type='button', data-dismiss='modal') Нет
+                            button#confirmRemoveButton.btn.btn-primary(type='button' data-dismiss='modal') Удалить

@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+    script( defer src="/javascripts/language.js" )
+
+    form.col-md-12
+        .form-group
+            label(for='languageTitle') Название
+            input#languageTitle.form-control(placeholder='Введите название')
+        .form-group
+            #message.alert.alert-danger(style="display: none")
+
+        .form-group
+            label(for='languageReduction') Сокращение
+            input#languageReduction.form-control(placeholder='Введите сокращение')
+        .form-group
+            #messageBlock.alert.alert-danger(style="display: none")
+
+        #addLanguageButton.btn.btn-primary Добавить язык

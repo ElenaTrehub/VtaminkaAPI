@@ -9,7 +9,7 @@ require('../model/test')('test title');
 
 const CategoryController = require('../controller/panel/CategoryController');
 const ProductController = require('../controller/panel/ProductController');
-
+const LanguageController = require('../controller/panel/LanguageController');
 /* GET home page. */
 router.get('/', HomeController.HomeAction );
 router.get('/panel', HomeController.HomeAction );
@@ -34,5 +34,12 @@ router.get('/panel/products/:id' ,ProductController.GetProductAction );
 router.put('/panel/products/:id' , ProductController.UpdateProduct );
 router.get('/panel/products/attributes/new' ,ProductController.AddNewAttributeAction );
 router.post('/panel/products/attributes/new' ,ProductController.AddNewAttribute );
+
+
+/* Languges */
+
+router.get('/panel/languages' ,LanguageController.GetLanguageListAction );
+router.get('/panel/languages/new' , LanguageController.AddLanguageAction);
+router.post('/panel/languages/new' , LanguageController.AddLanguage);
 
 module.exports = router;
