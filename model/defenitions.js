@@ -149,12 +149,12 @@ ProductAttributes.belongsToMany( Product , { through: ProductAndAttributes , for
 ProductImages.belongsTo(Product , { foreignKey: 'productID' });
 
 //
-// Product.sync({force: true});
+ //Product.sync({force: true});
 // Category.sync({force: true});
-// ProductAndCategories.sync({force: true});
-// ProductAttributes.sync({force: true});
-// ProductAndAttributes.sync({force: true});
-// ProductImages.sync({force: true});
+ //ProductAndCategories.sync({force: true});
+ //ProductAttributes.sync({force: true});
+ //ProductAndAttributes.sync({force: true});
+ //ProductImages.sync({force: true});
 
 module.exports.Category = Category;
 module.exports.Product = Product;

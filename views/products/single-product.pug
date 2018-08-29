@@ -18,6 +18,9 @@ block content
                 img.card-img-top(src='/' + product.image.imagePath, alt='Card image cap')
                 .card-body
                     p.card-text #{product.image.imagePath}
+                    button.btn.btn-wrapper(type='button', data-path='${product.image.imagePath}')
+                        | Удалить изображение
+
         .form-group
             label(for='categoriesSelect') Категории
             select#categoriesSelect.form-control( multiple )
@@ -39,7 +42,7 @@ block content
             label(for='currentAttributeValue') Значение атрибута
             input#currentAttributeValue.form-control(placeholder='Введите значение')
         .form-group
-            .btn.btn-primary#addAttributeValue
+            .btn.btn-primary#addAttributeValue(data-attributes=product.attributes)
                 | Добавить атрибут
         .form-group
             label(for='productAttributes') Список установленных атрибутов
@@ -60,7 +63,9 @@ block content
                             td #{attribute.attributeID}
                             td #{attribute.attributeTitle}
                             td #{attribute.pAttributes.attributeValue}
-                            td Удалить
+                            td
+                                button.btn.btn-danger(type='button', data-product-id='${attr.attributeID}')
+                                    | Удалить атрибут
         .form-group
             label(for='productDescription') Описание
             textarea#productDescription.form-control(placeholder='Введите описание') #{product.productDescription}

@@ -9,6 +9,10 @@
     let addProductButton = document.querySelector('#addProductButton');
 
     let attributes = [];
+    let removeButtons = [];
+    let removeImageButtons = [];
+
+
 
     if( attributesSelect ){
 
@@ -39,6 +43,23 @@
 
     if( addAttributeValue ){
 
+        let attributesExist = JSON.parse(addAttributeValue.getAttribute('data-attributes'));
+        console.log(attributesExist);
+
+        if(attributesExist){
+
+            for(let i=0; i<attributesExist.length; i++){
+                console.log(attributesExist[i]);
+                attributes.splice(0, 0, {
+                    attributeID: attributesExist[i].attributeID,
+                    attributeTitle: attributesExist[i].attributeTitle,
+                    attributeValue: attributesExist[i].pAttributes.attributeValue});
+            }
+
+
+        }
+
+        //console.log(attributes);
         addAttributeValue.addEventListener('click' , function (){
 
             let attributeID = attributesSelect.value;
@@ -65,13 +86,44 @@
                     <td>${attr.attributeID}</td>
                     <td>${attr.attributeTitle}</td>
                     <td>${attr.attributeValue}</td>
-                    <td></td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-product-id=${attr.attributeID}>
+                            Удалить атрибут
+                        </button>
+                    </td>
                 `;
 
             } )
 
-        });
+            removeButtons = document.querySelectorAll('.btn-danger');
+            console.log(removeButtons);
 
+            [].forEach.call( removeButtons , ( button )=> {
+
+                //let removeButton = document.querySelector('.btn-danger');
+                //console.log(removeButton);
+                button.addEventListener('click' , async function (){
+
+
+                    let attrDeleteID = +button.dataset.productId;
+
+
+                    let attrDelete = attributes.find( ( attr )=> +attr.attributeID === attrDeleteID );
+
+
+                    let indexAttrDelete = attributes.indexOf(attrDelete);
+
+                    attributes.splice(indexAttrDelete, 1);
+
+
+                    attributesTable.deleteRow(+indexAttrDelete);
+
+
+
+                });
+
+            });
+        });
     }//if
 
     if(addProductButton){
@@ -126,5 +178,35 @@
         });
 
     }//if
+
+    removeImageButtons = document.querySelectorAll('.btn-wrapper');
+
+
+    [].forEach.call( removeButtons , ( button )=> {
+
+        //let removeButton = document.querySelector('.btn-danger');
+        //console.log(removeButton);
+        button.addEventListener('click' , async function (){
+
+
+            let attrDeleteID = +button.dataset.productId;
+
+
+            let attrDelete = attributes.find( ( attr )=> +attr.attributeID === attrDeleteID );
+
+
+            let indexAttrDelete = attributes.indexOf(attrDelete);
+
+            attributes.splice(indexAttrDelete, 1);
+
+
+            attributesTable.deleteRow(+indexAttrDelete);
+
+
+
+        });
+
+    });
+
 
 })();
